@@ -21,6 +21,8 @@ export start_time_full="$(date -u +%s)"
 #----------------------------------------------------------------------
 #EXECUTE o comando df -h para escolher o que monitorar
 #----------------------------------------------------------------------
+numero=40
+numeroALERTA=$(printf "%02d%%" "$numero")
 
 dt=$(date  +'BACKUP INICIADO............%A, %d de %B de %Y, as %H:%M:%S' )
 data_INICIAL=`date -d @$start_time_full `
@@ -59,50 +61,11 @@ echo "$BANER_5"
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX	
 ChecaParticoes)
 echo "----------------> ChecaParticoes"
-#FSDISK=("XX" "/mnt/SSD-1" "/mnt/16A" "/mnt/16B" "FFFF" )
+numero=9
+numeroALERTA=$(printf "%02d%%" "$numero")
+
+
 FSDISK=("/mnt/SSD-1" "/mnt/16A" "/mnt/16B" )
-
-echo ""
-echo "_______________________________________________________________________"
-echo ""
-for FSDISK in ${FSDISK[@]}
-do
-Montado="" 
-# Definindo as variáveis
-filesystemINICIAL=$(df -h | grep "$FSDISK" | sort -k 1,1 | awk '{print $6}')
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-if [ "$FSDISK" == "$filesystemINICIAL"  ]; then
- echo  "PRESENTE OK    $FSDISK"
- else
- echo  "ERRO    $FSDISK"
-Interromper="parada"
- fi
-done
-
-if [ "$Interromper" == "parada" ]; then
-  echo ""
-  echo  "SCRIPT SERÁ INTERROMPIDO"
-  echo ""
-  echo "ERRO ENCONTRADO"
-  echo "ERRO DE MONTAGEM O SCRIPT SERA PARADO"
-  echo "VERIFIQUE OS PONTOS DE MONTAGEM"
-  sleep 5
-  exit
-else
-  echo ""
-echo "_______________________________________________________________________"
-  echo "FILESYSTEM OK"
-echo "_______________________________________________________________________"
-
-fi
-
-
-
-;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-LimiteDisco)
-echo "----------------> LimiteDisco"
-
- FSDISK=("/mnt/SSD-1" "/mnt/16A" "/mnt/16B" )
 echo "_______________________________________________________________________"
 
 echo "LENDO FSDISK            METRICA ALETA MAIOR QUE         $numeroALERTA  RESTANTE #"
@@ -121,17 +84,9 @@ free=$(df -h | grep "$Montado" | sort -k 1,1 | awk '{print $4}')
 percent=$(df -h | grep "$Montado" | sort -k 1,1 | awk '{print $5}')
 mountpoint=$(df -h | grep "$Montado" | sort -k 1,1 | awk '{print $6}')
 numero_sem_porcentagem=$(awk '{gsub("%", ""); print}' <<< $percent)
-
 porcentagem_formatada=$(printf "%02d%%" "$numero_sem_porcentagem")
-
-
-
  
 if [ "$numero_sem_porcentagem" -gt $numero ]; then
-#if [ $numero_sem_porcentagem -lt $numero ]; then
-
-
-
 SISALERTA=$(
 echo ""
 echo "#_____________________________________________________________________#"
@@ -158,9 +113,13 @@ echo  " ARMAZENAMENTO SENDO MONITORADO                >>   $porcentagem_formatad
 echo "#=====================================================================#"
 )
 echo "$SISOK"
-
 fi
 done
+
+;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+LimiteDisco)
+echo "----------------> LimiteDisco"
+
 
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 PermicaoDisco)
