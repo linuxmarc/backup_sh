@@ -154,7 +154,7 @@ LimiteDisco)
 			echo " $filesystem              $mountpoint                     "
 			echo " Total: $total           USADO $used               LIVRE $free     "
 			echo " ARMAZENAMENTO SENDO MONITORADO                >>   $porcentagem_formatada"
-			echo "# SISTEMA OK                                  Porcentagem de uso: $porcentagem_formatada #"
+			echo "# SISTEMA  OK                                  Porcentagem de uso: $porcentagem_formatada #"
 			echo "#=====================================================================#"
 			)
 			echo "$SISOK"
