@@ -68,7 +68,7 @@ numeroALERTA=$(printf "%02d%%" "$numero")
 FSDISK=("/mnt/SSD-1" "/mnt/16A" "/mnt/16B" )
 echo "_______________________________________________________________________"
 
-echo "LENDO FSDISK            METRICA ALETA MAIOR QUE         $numeroALERTA  RESTANTE #"
+echo "LENDO FSDISK            METRICA ALERTA MAIOR QUE        $numeroALERTA  RESTANTE #"
 echo "_______________________________________________________________________"
 echo ""
 
