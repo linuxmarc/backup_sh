@@ -13,12 +13,7 @@
 #----------------------------------------------------------------------
 #EXECUTE o comando df -h para escolher o que monitorar
 #----------------------------------------------------------------------
-# Criação de função
-function chamadata {
-echo ""
-}			
-# Chamada da função
-chamadata
+
 
 data_INICIAL=`date -d @$start_time_full `
 
