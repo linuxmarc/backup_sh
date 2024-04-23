@@ -61,10 +61,13 @@ case $contanumero in
 BannerInicial)
 			echo "----------     ----------     ----------     ----------     ---------- >    |   BannerInicial"
 			echo "$BANER_1"
+			echo "$BANER_1" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 EchoDiscoTotal)
 			echo "----------     ----------     ----------     ----------     ---------- >    |   EchoDiscoTotal"
 			echo "$BANER_5"
+			echo "$BANER_5" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt
+			
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX	
 ChecaDiscos)
 			echo "----------     ----------     ----------     ----------     ---------- >    |   ChecaDiscos"
@@ -146,6 +149,7 @@ LimiteDisco)
 			echo "#=====================================================================#"
 			)
 			echo "$SISALERTA"
+			echo "$SISALERTA" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt
 			else
 			SISOK=$(
 			echo ""
@@ -154,10 +158,11 @@ LimiteDisco)
 			echo " $filesystem              $mountpoint                     "
 			echo " Total: $total           USADO $used               LIVRE $free     "
 			echo " ARMAZENAMENTO SENDO MONITORADO                >>   $porcentagem_formatada"
-			echo "# SISTEMA  OK                                  Porcentagem de uso: $porcentagem_formatada #"
+			echo "# SISTEMA OK                                  Porcentagem de uso: $porcentagem_formatada #"
 			echo "#=====================================================================#"
 			)
 			echo "$SISOK"
+			echo "$SISOK" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt
 			fi
 			done
 
@@ -165,9 +170,6 @@ LimiteDisco)
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 CriaParticoes)
 			echo "----------     ----------     ----------     ----------     ---------- >    |   CriaParticoes"
-
-            
-
 
 			mkdir -p $caminhoHD16A/"TEMPORARIO-BACKUP"
 			mkdir -p $caminhoHD16A/"BKP1"
@@ -181,7 +183,6 @@ CriaParticoes)
 			mkdir -p $caminhoHD16B/"BKP8"
 			mkdir -p $caminhoHD16B/"BACKUP-FULL-INCREMENTAL"
 #----------------------------------------------------------------------
-
 			mkdir -p $caminhoSSD/"COMPARTILHAMENTO"
 			mkdir -p $caminhoSSD/"HISTORICO"
 			mkdir -p $caminhoSSD/"LIXEIRA"
@@ -208,17 +209,17 @@ CriaParticoes)
 			mv -f  $caminhoHD16A/"BKP2"/* $caminhoHD16A/"BKP3"
 			mv -f  $caminhoHD16A/"BKP1"/* $caminhoHD16A/"BKP2"
 			
-			
 echo "$BANER_2"
 echo "$BANER_2" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt			
-echo "$BANER_11"			
+echo "$BANER_11"
+echo "$BANER_11" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt			
 
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 PermicaoDisco)
 			echo "----------     ----------     ----------     ----------     ---------- >    |   PermicaoDisco"
 			echo "$BANER_3" 
-#			echo "$BANER_3" >> /UTIL/LOG/log.txt
+			echo "$BANER_3" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt
 
 			chmod -R 7777  $caminhoHD16A
 			chown -R administrador:root $caminhoHD16A
@@ -228,12 +229,40 @@ PermicaoDisco)
 			chown -R administrador:root $caminhoSSD 
 			chmod -R 7777 /UTIL
 			chown -R administrador:root /UTIL
-			echo "$BANER_11"			
+			echo "$BANER_11"
+			echo "$BANER_11" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt			
 
 
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 LogicaInicioBackup)
 			echo "----------     ----------     ----------     ----------     ---------- >    |   LogicaInicioBackup"
+datainicialBackupPrimario=`date +%s`
+sleep 1
+echo "$BANER_4"
+echo "$BANER_4" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt	
+
+echo "$BANER_9"
+echo "$BANER_9" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt	
+
+            cp -r $caminhoSSD/COMPARTILHAMENTO/* $caminhoHD16A/TEMPORARIO-BACKUP
+            mv -f $caminhoHD16A/TEMPORARIO-BACKUP/* $caminhoHD16A/BKP1
+source ./auxiliar.sh
+echo "$BANER_10"
+echo "$BANER_10" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt	
+
+datafinal=`date +%s`
+somaPrimaria=`expr $datafinal - $datainicialBackupPrimario`
+resultadoPrimaria=`expr 10800 + $somaPrimaria`
+tempoPrimaria=`date -d @$resultadoPrimaria +%H:%M:%S`
+echo "" 
+
+echo "#TEMPO GASTO BACKUP PRIMARIO    TOTAL:                      $tempoPrimaria  #"
+echo "#TEMPO GASTO BACKUP PRIMARIO    TOTAL:                      $tempoPrimaria  #" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt
+
+echo "#                                                           H: M: S:  #"
+
+echo "$BANER_11"
+echo "$BANER_11" >> $caminhoSSD/"COMPARTILHAMENTO"/log.txt				
 
 ;; #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 		
